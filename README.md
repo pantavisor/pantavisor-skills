@@ -4,24 +4,32 @@
 ship apps for embedded Linux devices running [Pantavisor](https://pantavisor.io),
 with [Pantacor Hub](https://hub.pantacor.com)'s remote builds.
 
+```sh
+npx skills add pantavisor/pantavisor-skills
+```
+
 | Skill | What it does |
 | --- | --- |
 | [`pantavisor-apps`](skills/pantavisor-apps/SKILL.md) | From an empty repository to a signed container on a device, or a flashable device image: Dockerfile / `pvpkg.json` (Yocto, Buildroot), secrets and signing identities, builds, deploys, OEM configuration and join tokens. Uses the `pvr` CLI when it has a shell, the Pantahub MCP server otherwise. |
 
 ## Install
 
-A skill is a folder with a `SKILL.md`; every agent below reads the same
-folder, only the place differs.
+```sh
+npx skills add pantavisor/pantavisor-skills
+```
 
-**Claude Code, Codex, OpenCode, Antigravity (Gemini):**
+That's it for **Claude Code, Codex, OpenCode, Antigravity (Gemini)** and the
+other agents that read [Agent Skills](https://agentskills.io): it finds the
+agents on your machine and installs the skills where each one looks.
+
+Without Node, the same with the install script:
 
 ```sh
 curl -fsSL https://raw.githubusercontent.com/pantavisor/pantavisor-skills/main/install.sh | sh
 ```
 
-or `npx skills add pantavisor/pantavisor-skills`, or from a checkout
-`sh install.sh` (`--link` to symlink, `--project` for the current project,
-`--uninstall` to remove). It installs into:
+or from a checkout `sh install.sh` (`--link` to symlink, `--project` for the
+current project, `--uninstall` to remove). It installs into:
 
 | Agent | User-wide | Per project |
 | --- | --- | --- |
