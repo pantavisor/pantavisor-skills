@@ -55,13 +55,23 @@ secrets by name, never pasted tokens:
 
 ## MQTT management agent (pv-mqtt-sdk)
 
-Replaces Pantavisor's own Hub client (updates pushed over MQTT). Build it
-from `https://github.com/pantavisor/pv-mqtt-sdk` signed with `<identity>-oem`
-and an OEM part whose config sets `PV_CONTROL_REMOTE=0`,
-`PV_CONTROL_REMOTE_ALWAYS=0`, `PV_LOG_PUSH=0`,
-`PH_UPDATER_NETWORK_TIMEOUT=600` and `PH_CREDS_HOST`. Deploy it removing the
-unsigned `pv-oem-developer-001` part. It publishes `pantavisor.sdk.*`,
-`pantavisor.policy` and `pantavisor.oem` device-meta.
+Replaces Pantavisor's own Hub client (updates pushed over MQTT, live logs,
+web SSH). It is **not open source**: its source is not public and it can't
+be built from a repository. Pantacor ships it as prebuilt pvr exports per
+device on https://pantavisor.io/downloads/ — the user downloads the one for
+their device, then it is deployed like any export (`pvr merge` of the file,
+or `get_export_upload_link` / `import_export_from_url` and `plan_revision`
+with `import_export`).
+
+- It only runs where Pantavisor's own client is off: the device's OEM
+  configuration must set `PV_CONTROL_REMOTE=0`, `PV_CONTROL_REMOTE_ALWAYS=0`,
+  `PV_LOG_PUSH=0`, `PH_UPDATER_NETWORK_TIMEOUT=600` and `PH_CREDS_HOST`.
+- A strict device verifies it like any app: the downloaded export must be
+  signed with a key the device trusts. If it isn't, ask the user how they
+  get it signed for their identity; don't remove or skip signatures.
+- Drop an unsigned `pv-oem-developer-001` part if the export carries one.
+- Once running it publishes `pantavisor.sdk.*`, `pantavisor.policy` and
+  `pantavisor.oem` device-meta.
 
 ## When a new device doesn't come up
 

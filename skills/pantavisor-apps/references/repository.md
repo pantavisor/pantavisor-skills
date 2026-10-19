@@ -67,8 +67,7 @@ poky, meta-openembedded, meta-virtualization and meta-pantavisor. To build in
 minutes, start from meta-pantavisor CI's config for the target (e.g.
 `kas/build-configs/release/containers/docker-armv8-scarthgap.yaml`): keep its
 machine, distro, layer commits and `local_conf_header`, add only your layer
-and change `target`. The log's `Sstate summary` should be above 95%. Example
-repo: https://github.com/highercomve/pantahub-yocto-hello
+and change `target`. The log's `Sstate summary` should be above 95%.
 
 ## Buildroot
 
