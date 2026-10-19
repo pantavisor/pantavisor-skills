@@ -22,6 +22,9 @@ That's it for **Claude Code, Codex, OpenCode, Antigravity (Gemini)** and the
 other agents that read [Agent Skills](https://agentskills.io): it finds the
 agents on your machine and installs the skills where each one looks.
 
+> **Antigravity CLI (`agy`):** `npx skills` doesn't install where `agy`
+> looks (`~/.gemini/skills`); use the install script below.
+
 Without Node, the same with the install script:
 
 ```sh
@@ -35,7 +38,8 @@ current project, `--uninstall` to remove). It installs into:
 | --- | --- | --- |
 | Claude Code | `~/.claude/skills/` | `.claude/skills/` |
 | Codex, OpenCode | `~/.agents/skills/` | `.agents/skills/` |
-| Antigravity | `~/.gemini/antigravity/skills/` | `.agent/skills/` |
+| Antigravity CLI (`agy`), Gemini CLI | `~/.gemini/skills/` | `.agents/skills/` |
+| Antigravity app | `~/.gemini/antigravity/skills/` | `.agents/skills/` |
 
 **claude.ai and the Claude apps:** download `pantavisor-apps.skill` from the
 [latest release](https://github.com/pantavisor/pantavisor-skills/releases/latest)

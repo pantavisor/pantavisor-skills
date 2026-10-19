@@ -26,6 +26,7 @@ jobs:
           sh install.sh
           test -f "$HOME/.claude/skills/pantavisor-apps/SKILL.md"
           test -f "$HOME/.agents/skills/pantavisor-apps/SKILL.md"
+          test -f "$HOME/.gemini/skills/pantavisor-apps/SKILL.md"
           test -f "$HOME/.gemini/antigravity/skills/pantavisor-apps/SKILL.md"
           sh install.sh --uninstall
           test ! -e "$HOME/.claude/skills/pantavisor-apps"

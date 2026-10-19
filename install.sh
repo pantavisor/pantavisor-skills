@@ -44,13 +44,15 @@ targets=""
 add() { targets="$targets $1"; }
 if [ "$scope" = project ]; then
 	add .claude/skills    # Claude Code
-	add .agents/skills    # Codex, OpenCode
-	add .agent/skills     # Antigravity
+	add .agents/skills    # Codex, OpenCode, Antigravity CLI
 else
 	[ -d "$HOME/.claude" ] && add "$HOME/.claude/skills"                          # Claude Code
 	{ [ -d "$HOME/.codex" ] || [ -d "$HOME/.config/opencode" ] || [ -d "$HOME/.agents" ]; } &&
 		add "$HOME/.agents/skills"                                                # Codex, OpenCode
-	[ -d "$HOME/.gemini/antigravity" ] && add "$HOME/.gemini/antigravity/skills" # Antigravity
+	# Gemini's shared skills, read by the Antigravity CLI (agy) and Gemini CLI;
+	# the Antigravity app reads its own folder.
+	[ -d "$HOME/.gemini" ] && add "$HOME/.gemini/skills"
+	[ -d "$HOME/.gemini/antigravity" ] && add "$HOME/.gemini/antigravity/skills"
 fi
 [ -n "$targets" ] || { echo "no supported agent found (Claude Code, Codex, OpenCode, Antigravity)" >&2; exit 1; }
 
