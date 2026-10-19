@@ -1,0 +1,53 @@
+name: release
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+
+permissions:
+  contents: write
+
+jobs:
+  skills:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: validate and package
+        run: sh scripts/package.sh
+
+      - name: install script works
+        run: |
+          mkdir -p "$HOME/.claude" "$HOME/.codex" "$HOME/.gemini/antigravity"
+          sh install.sh
+          test -f "$HOME/.claude/skills/pantavisor-apps/SKILL.md"
+          test -f "$HOME/.agents/skills/pantavisor-apps/SKILL.md"
+          test -f "$HOME/.gemini/antigravity/skills/pantavisor-apps/SKILL.md"
+          sh install.sh --uninstall
+          test ! -e "$HOME/.claude/skills/pantavisor-apps"
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: skills
+          path: dist/*.skill
+
+      # On a tag: release notes are that tag's section of CHANGELOG.md, and
+      # every skill is attached as <name>.skill.
+      - name: release
+        if: github.ref_type == 'tag'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          awk -v tag="$GITHUB_REF_NAME" '
+            $0 ~ "^<a name=\"" tag "\"></a>" { on = 1; next }
+            on && /^<a name="/ { exit }
+            on { print }
+          ' CHANGELOG.md > notes.md
+          [ -s notes.md ] || echo "See CHANGELOG.md." > notes.md
+          gh release view "$GITHUB_REF_NAME" >/dev/null 2>&1 \
+            || gh release create "$GITHUB_REF_NAME" --title "$GITHUB_REF_NAME" --notes-file notes.md
+          gh release upload "$GITHUB_REF_NAME" dist/*.skill --clobber
